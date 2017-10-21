@@ -8,7 +8,7 @@ class EventsController < ApplicationController
         @event = Event.create(event_params)
         
         if @event.valid?
-            Attends.create(user: current_user, event: @event)
+            Attend.create(user: current_user, event: @event)
             
             return redirect_to events_path
         end       

@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     # Attends Routes
     post 'join_event' => 'attends#create', as: 'join_event'
     delete 'leave_event' => 'attends#destroy', as: 'leave_event'
+    #messages Route
+
+    post 'messages' => 'messages#create', as: 'create_message'
 
 end
   
