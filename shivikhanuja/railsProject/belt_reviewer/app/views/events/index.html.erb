@@ -31,6 +31,7 @@
                             <form action="<%= leave_event_path %>" method= "post">
                                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token  %>"/>
                                 <input type="hidden" name="attend[event_id]" value="<%= event.id  %>"/>
+                                <input type="hidden" name="_method" value="delete"/>
                                 <button class="btn btn-sm btn-warning" type="submit">Cancel</button>
                             </form>
                         <% else %>
@@ -80,6 +81,7 @@
                         <form action="<%= leave_event_path %>" method= "post">
                             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token  %>"/>
                             <input type="hidden" name="attend[event_id]" value="<%= event.id  %>"/>
+                            <input type="hidden" name="_method" value="delete"/>
                             <button class="btn btn-sm btn-warning" type="submit">Cancel</button>
                         </form>
                     <% else %>
