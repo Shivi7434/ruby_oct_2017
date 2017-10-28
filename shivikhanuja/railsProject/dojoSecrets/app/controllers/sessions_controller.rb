@@ -1,30 +1,40 @@
 class SessionsController < ApplicationController
-    def new
+    # skip_before_action :require_login, except: [:destroy]
 
-    end    
+    def new
+        variable = "this"
+        puts variable
+    end
 
     def create
-        user = User.find_by_email(params[:user][:email])
+        flash[:errors] ||= []
 
-        if user
-            if user.try(:authenticate, params[:user][:password])
-                session[:user_id] = user.id
+        @user = User.find_by_email(params[:email])
+            
+        @user.try(:authenticate, params[:password])
 
-                return redirect_to user_path user.id
+        if @user
+            if @user.try(:authenticate, params[:password])
+                flash[:notice] = ["Successfully logged in."]
+                
+                session[:user_id] = @user.id
 
+                return redirect_to @user
             end
 
-            flash[:errors] = ['Password is not correct.']
+            flash[:errors] << "Incorrect password"
         else
-            flash[:errors] = ['Account not found, please register first.']   
-        end
-        
-        return redirect_to :back
-    end
-    
-    def destroy
-        session.delete(:user_id) if session[:user_id]
-        return redirect_to new_login_path
-    end    
+            flash[:errors] << "Email not found"
+        end 
 
+        return redirect_to '/login'
+    end
+
+    def destroy
+        session.clear
+
+        flash[:notice] = ["Successfully Logged Out"]
+
+        return redirect_to '/login'
+    end
 end

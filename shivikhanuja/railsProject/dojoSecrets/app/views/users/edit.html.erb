@@ -1,0 +1,21 @@
+<h1>Edit <%= @user.first_name.titleize %>'s Information</h1>
+
+<form action="/users/<%= @user.id %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+    <input type="hidden" name="_method" value="patch" />
+
+    <label>First Name:</label>
+    <input type="text" name="user[first_name]" value="<%= @user.first_name.titleize %>" />
+
+    <label>Last Name:</label>
+    <input type="text" name="user[last_name]" value="<%= @user.last_name.titleize %>" />
+
+    <label>Email:</label>
+    <input type="email" name="user[email]" value="<%= @user.email %>" />
+
+    <input type="submit" value="Update" />
+</form>
+
+<% if current_user.id == @user.id %>
+    <a href="/users/<%= @user.id %>" data-method="delete">Delete</a>
+<% end %>

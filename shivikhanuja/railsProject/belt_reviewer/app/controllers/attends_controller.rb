@@ -8,7 +8,10 @@ class AttendsController < ApplicationController
     end
 
     def destroy
+        @organization = Organization.find(params[:id])
         
+        @organization.destroy
+
     end 
        
     private

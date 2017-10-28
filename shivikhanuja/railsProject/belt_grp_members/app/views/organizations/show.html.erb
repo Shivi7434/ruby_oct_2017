@@ -1,0 +1,26 @@
+
+<a class="nav-link" href="<%= organizations_path %>">Dashboard</a>
+
+<p><%= @organization.name %></p>
+<p><%= @organization.description%></p>
+
+
+<% if @organization.membering.include? current_user  %>
+    <form action="<%= leave_organization_path %>" method= "post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token  %>"/>
+        <input type="hidden" name="member[organization_id]" value="<%= @organization.id  %>"/>
+        <input type="hidden" name="_method" value="delete"/>
+        <button class="btn btn-sm btn-warning" type="submit">Leave</button>
+    </form>
+<% else %>
+    <form action="<%= join_organization_path %>" method= "post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token  %>"/>
+        <input type="hidden" name="member[organization_id]" value="<%= @organization.id  %>"/>
+        <button class="btn btn-sm btn-primary" type="submit">Join</button>
+    </form>
+<% end %>  
+<% @organization.membering.each do |user| %>
+    <% if user != @organization.user %>
+        <p><%= user.first_name %></p>
+     <% end %>    
+<% end %>

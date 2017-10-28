@@ -1,0 +1,37 @@
+<p>Hi <%= @user.first_name %> </p>
+<p>Here is your profile description: <%= @user.description %> </p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            <tr>
+            <% @user.friends.each do |friendee| %>
+                <td><a href="<%= friendships_show_path friendee.id %>"><%= friendee.first_name %></a></td>
+                <td>
+                    <% if friendships.friendee.include? current_user  %>
+                            Joined 
+                        <form action="<%= delete_friendships_path %>" method= "post">
+                            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token  %>"/>
+                            <input type="hidden" name="friendships[user_id]" value="<%= user.id  %>"/>
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button class="btn btn-sm btn-warning" type="submit">Ignore</button>
+                        </form>
+                    <% else %>
+                        <form action="<%= accept_friendships_path %>" method= "post">
+                            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token  %>"/>
+                            <input type="hidden" name="friendships[user_id]" value="<%= user.id  %>"/>
+                            <button class="btn btn-sm btn-primary" type="submit">Join</button>
+                        </form>
+                    <% end %>
+                </td>             
+            </tr>
+        <% end %>    
+    </tbody>
+</table>

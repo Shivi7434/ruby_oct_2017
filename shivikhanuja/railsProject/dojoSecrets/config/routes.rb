@@ -20,6 +20,10 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy', as: 'logout'
   delete 'sessions' => 'sessions#destroy' 
 
+  resources :secrets
+  root 'secrets#index'
+  post 'secrets/:id/like' => 'likes#create', as: 'likes_create'
+  delete 'secrets/:id/unlike' => 'likes#destroy', as: 'likes_destroy'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

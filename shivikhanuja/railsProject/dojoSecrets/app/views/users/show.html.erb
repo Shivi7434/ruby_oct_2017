@@ -1,3 +1,42 @@
-<h3>Show page</h3>
+<h2><% if @user == current_user %>Welcome,<% end %> <%= @user.first_name.titleize %></h2>
 
-<p>First Name: <%= @user.first_name %> </p>
+<% if @user == current_user %>
+    <form action="/secrets" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+
+        <textarea name="secret[content]"></textarea>
+
+        <input type="submit" value="Create Secret" />
+    </form>
+
+    <div id="secret_content">
+        <div id="secrets">
+            <h4>Secrets</h4>
+            <% unless @user.secrets.empty? %>
+                <% @user.secrets.each do |secret| %>
+                    <div class="secret_info">
+                        <p><%= secret.content %></p>
+                        <p><%= secret.likes.count %> likes</p>
+                    </div>
+                    <a class="action" href="/secrets/<%= secret.id %>" data-method="delete">Delete</a>
+                <% end %>
+            <% else %>
+                <p>You has no secrets yet...</p>
+            <% end %>
+        </div>
+
+        <div id="liked_secrets">
+            <h4>Secrets Liked</h4>
+            <% unless @user.secrets_liked.empty? %>
+                <% @user.secrets_liked.each do |secret| %>
+                    <div class="secret_info">
+                        <p><%= secret.content %></p>
+                        <p><%= secret.likes.count %> likes</p>
+                    </div>
+                <% end %>
+            <% else %>
+                <p>You have not liked any secrets yet</p>
+            <% end %>
+        </div>
+    </div>
+<% end %>
